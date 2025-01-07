@@ -4,6 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import SettingScreen from '../Screen/SettingScreen';
 import RoomScreen from '../Screen/RoomScreen';
 import HomeScreen from './../Screen/HomeScreen';
+import Hamburger from '../Screen/HamBurger';
 
 const Tab = createBottomTabNavigator();
 const {width} = Dimensions.get('window');
@@ -43,7 +44,7 @@ export default function BottomTabNavigation() {
         })}>
         <Tab.Screen name="Settings" component={SettingScreen} />
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Rooms" component={RoomScreen} />
+        <Tab.Screen name="Hamburger" component={Hamburger} />
       </Tab.Navigator>
       {/* Underline */}
       <Animated.View

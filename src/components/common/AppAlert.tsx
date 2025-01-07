@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Modal,
   View,
@@ -17,6 +17,7 @@ interface AppAlertProps {
   onConfirm?: () => void;
   confirmText?: string;
   cancelText?: string;
+  children?: React.ReactNode; // Allows passing custom UI (e.g., Rating) as a prop
 }
 
 const AppAlert: React.FC<AppAlertProps> = ({
@@ -27,6 +28,7 @@ const AppAlert: React.FC<AppAlertProps> = ({
   onConfirm,
   confirmText = 'OK',
   cancelText = 'Cancel',
+  children, // Custom UI for specific screens
 }) => {
   if (Platform.OS === 'android' && visible) {
     return (
@@ -39,6 +41,10 @@ const AppAlert: React.FC<AppAlertProps> = ({
           <View style={styles.alertBox}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.message}>{message}</Text>
+
+            {/* Render custom content if provided */}
+            {children && <View style={styles.customContent}>{children}</View>}
+
             <View style={styles.buttonContainer}>
               <Text
                 style={[styles.buttonText, styles.cancelText]}
@@ -60,12 +66,10 @@ const AppAlert: React.FC<AppAlertProps> = ({
   }
 
   if (Platform.OS === 'ios' && visible) {
-    // Show the default iOS Alert
     const buttons = [{text: cancelText, onPress: onClose}];
     if (onConfirm) {
       buttons.push({text: confirmText, onPress: onConfirm});
     }
-
     Alert.alert(title, message, buttons, {cancelable: false});
   }
 
@@ -81,7 +85,7 @@ const styles = StyleSheet.create({
   },
   alertBox: {
     width: '85%',
-    backgroundColor: '#F5E8D8', // Background color changed to match your app color
+    backgroundColor: '#F5E8D8',
     borderRadius: 22,
     padding: 22,
     shadowColor: '#000',
@@ -103,6 +107,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
     lineHeight: 22,
+  },
+  customContent: {
+    marginBottom: 20, // Space below custom content (e.g., Rating)
   },
   buttonContainer: {
     flexDirection: 'row',
